@@ -17,6 +17,9 @@ export const getUserByLogin = async (login: string) => {
         .toParams({ placeholder: '?' })
     const selectStatement = database.prepare(text)
     const result = selectStatement.get(...values) as User
-    const user: User = { ...result }
-    return user
+    if (result) {
+        const user: User = { ...result }
+        return user
+    }
+    return false
 }
