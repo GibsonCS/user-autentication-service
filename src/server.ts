@@ -1,11 +1,11 @@
-import { select } from './database/db.js';
 import fastify from "fastify";
 import { registerRoutes } from "./routes";
+import fastifyCookie from "fastify-cookie";
 
 const server = fastify()
 
 registerRoutes(server);
-
+server.register(fastifyCookie)
 const app = async () => {
     try {
         await server.listen({ port: 3000 })
