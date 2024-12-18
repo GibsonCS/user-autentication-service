@@ -1,9 +1,6 @@
 import { FastifyInstance } from "fastify"
+import * as controller from '../controllers/loginController.js'
 
 export const loginRoute = async (server: FastifyInstance) => {
-    server.get('/login', (req, reply) => {
-        reply.send({
-            message: 'Login route'
-        })
-    })
+    server.post('/login', controller.loginController)
 }
