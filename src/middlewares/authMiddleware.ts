@@ -6,7 +6,6 @@ export const authMiddleware = (server: FastifyInstance) => {
         if (req.url === '/api/create' || req.url === '/api/login') return done()
 
         const token = req.headers.cookie?.replace('authToken=', '')
-        console.log(token)
         token ? done() : reply.status(401).send({ message: 'Não autorizado' })
     })
 }
