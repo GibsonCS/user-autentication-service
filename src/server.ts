@@ -1,10 +1,13 @@
 import fastify from "fastify";
 import { registerRoutes } from "./routes";
 import fastifyCookie from "fastify-cookie";
+import { authMiddleware } from "./middlewares/authMiddleware";
 
 const server = fastify()
 
+authMiddleware(server)
 registerRoutes(server);
+
 server.register(fastifyCookie)
 const app = async () => {
     try {
