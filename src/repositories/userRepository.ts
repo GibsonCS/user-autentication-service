@@ -2,6 +2,7 @@ import { UserInput } from "../schemas/userSchema.js";
 import { database } from "../database/db.js";
 import sqlBricks from "sql-bricks";
 import { User } from "../interfaces/user.interface.js";
+import { StatementSync } from "node:sqlite";
 
 export const createUser = async (credentials: UserInput) => {
     const { text, values } = sqlBricks.insertInto('users', credentials)
@@ -22,4 +23,12 @@ export const getUserByLogin = async (login: string) => {
         return user
     }
     return false
+}
+
+export const getUsers = async () => {
+    const { text } = sqlBricks.select().from('users').toParams()
+    const selectStatement: StatementSync = database.prepare(text)
+    const result: unknown[] = selectStatement.all()
+    const cleanResult: User[] = result.map(({ ...row }) => row) as User[]
+    return cleanResult
 }
