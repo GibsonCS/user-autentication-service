@@ -9,7 +9,7 @@ export const loginService = async (credentials: LoginInput) => {
         const passwordFromDB: string = user.password
         const isTrue = await comparePassword(credentials.password, passwordFromDB);
         if (isTrue) {
-            return generateJWT({ username: user.username })
+            return generateJWT({ username: user.username, roles: ["user"] })
         }
     }
     return false
