@@ -12,7 +12,7 @@ export const loginController = async (req: FastifyRequest, reply: FastifyReply) 
                 secure: false,
                 path: '/',
                 maxAge: 3600
-            }).status(200).send({ message: `Bem vindo(a) ${data.username}` })
+            }).status(200).send({ username: data.username })
         } else {
             reply.status(401).send({ message: 'Verifique as credencias.' })
         }
