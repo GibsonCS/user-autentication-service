@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify"
-import { LoginInput, loginValidation } from "../schemas/userSchema"
+import { LoginInput, loginValidation } from "../schemas/userSchema.js"
 import * as loginService from '../services/loginService.js'
 
 export const loginController = async (req: FastifyRequest, reply: FastifyReply) => {
@@ -12,7 +12,7 @@ export const loginController = async (req: FastifyRequest, reply: FastifyReply) 
                 secure: false,
                 path: '/',
                 maxAge: 3600
-            }).status(200).send({ username: data.username })
+            }).status(200).send({ message: 'Wellcome' })
         } else {
             reply.status(401).send({ message: 'Verifique as credencias.' })
         }

@@ -1,7 +1,7 @@
-import { UserInput, userValidation } from '../schemas/userSchema';
+import { UserInput, userValidation } from '../schemas/userSchema.js';
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as userService from '../services/userService.js'
-import { User } from '../interfaces/user.interface';
+import { User } from '../interfaces/user.interface.js';
 
 export const createUserController = async (req: FastifyRequest, reply: FastifyReply) => {
     try {

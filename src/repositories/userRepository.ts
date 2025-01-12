@@ -9,17 +9,32 @@ export const createUser = async (credentials: UserInput) => {
         .toParams({ placeholder: '?' })
     const insertStatement = database.prepare(text)
     insertStatement.run(...values)
+    addUserRoleToUser()
+}
+
+export const addUserRoleToUser = async () => {
+    const { text, values } = sqlBricks.insertInto('user_roles', [{ user_id: 1, role_id: 1 }, { user_id: 1, role_id: 2 }]).toParams({ placeholder: '?' })
+    const insertStatement = database.prepare(text)
+    insertStatement.run(...values)
 }
 
 export const getUserByLogin = async (login: string) => {
-    const { text, values } = sqlBricks.select()
-        .from('users')
-        .where({ username: login })
+    const { text, values } = sqlBricks.select('users.username', 'users.password', 'roles.role',)
+        .from('users').innerJoin('user_roles').on('users.id', 'user_roles.user_id').innerJoin('roles').on('roles.id', 'user_roles.role_id')
+        .where('users.username', login)
         .toParams({ placeholder: '?' })
     const selectStatement = database.prepare(text)
-    const result = selectStatement.get(...values) as User
+    const result = selectStatement.all(...values)
+
     if (result) {
-        const user: User = { ...result }
+        const roles = Object.values(result).filter((value) => typeof value === 'object').map((v: any) => v.role)
+        const { username, password }: any = result[0]
+
+        const user = {
+            username,
+            roles,
+            password
+        }
         return user
     }
     return false

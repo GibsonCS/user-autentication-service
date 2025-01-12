@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { jwtDecoded } from "../util/jwdDecode";
+import { jwtDecoded } from "../util/jwdDecode.js";
 
 
 export const authRoute = async (server: FastifyInstance) => {

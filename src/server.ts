@@ -1,7 +1,9 @@
 import fastify from "fastify";
-import { registerRoutes } from "./routes";
-import fastifyCookie from "fastify-cookie";
-import { authMiddleware } from "./middlewares/authMiddleware";
+import { registerRoutes } from "./routes/index.js";
+import fastifyCookie from "@fastify/cookie";
+
+
+import { authMiddleware } from "./middlewares/authMiddleware.js";
 import fastifyCors from "@fastify/cors";
 
 const server = fastify()
