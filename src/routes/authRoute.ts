@@ -1,11 +1,8 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { jwtDecoded } from "../util/jwdDecode.js";
+import AuthController from "../controllers/AuthController.js";
+import { FastifyInstance } from "fastify";
 
-
-export const authRoute = async (server: FastifyInstance) => {
-    server.get('/check-auth', (request: FastifyRequest, reply: FastifyReply) => {
-        const token = request.cookies.authToken
-        const decodedToke = jwtDecoded(token)
-        reply.send({ username: decodedToke.username, roles: [decodedToke.roles] })
-    })
+const authController = new AuthController()
+export const authRoutes = async (server: FastifyInstance) => {
+    server.post('/auth/login', authController.login)
+    server.get('/auth/check', authController.checkAuth)
 }

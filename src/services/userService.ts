@@ -1,16 +1,24 @@
-import { encryptPassword } from './../util/encrypt.js';
-import * as repository from '../repositories/userRepository.js'
-import { User } from '../interfaces/user.interface.js';
-import { UserInput } from '../schemas/userSchema.js';
+import { encryptPassword } from '../util/encrypt.js'
+import { User } from '../interfaces/user.interface.js'
+import { UserInput } from '../schemas/userSchema.js'
+import { UserRepository } from '../repositories/UserRepository.js'
 
-export const createUserService = async (credentials: UserInput) => {
+const userRepository = new UserRepository()
+export class UserService {
+  async create (credentials: UserInput) {
     credentials.password = await encryptPassword(credentials.password)
-    await repository.createUser(credentials)
-}
+    await userRepository.create(credentials)
+  }
 
-export const getUsersService = async () => {
-    const users: User[] = await repository.getUsers();
+  async findAll () {
+    const users: User[] = await userRepository.findAll()
     const usersOnlyUsernameAndEmail: User[] = []
-    users.forEach(user => usersOnlyUsernameAndEmail.push({ username: user.username, email: user.email }))
+    users.forEach(user =>
+      usersOnlyUsernameAndEmail.push({
+        username: user.username,
+        email: user.email
+      })
+    )
     return usersOnlyUsernameAndEmail
+  }
 }
