@@ -1,9 +1,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import sqlBricks from 'sql-bricks'
 
-
 export const database = new DatabaseSync('./src/database/db.sqlite')
-
 const runSedd = () => {
     database.exec(`
         DROP TABLE IF EXISTS user_roles;
@@ -34,18 +32,10 @@ const runSedd = () => {
         ) STRICT;
         `)
 
-
     insert({ table: 'roles', items: { role: 'user' } })
     insert({ table: 'roles', items: { role: 'admin' } })
-    // insert({ table: 'roles', items2 })
-    // insert({ table: 'roles', items2 })
 }
 runSedd()
-
-
-// export const select = (query: string) => {
-//     return database.prepare(query).all()
-// }
 
 export function insert({ table, items }: any) {
     const { text, values } = sqlBricks.insertInto(table, items)
@@ -55,21 +45,3 @@ export function insert({ table, items }: any) {
     const insertStatement = database.prepare(text)
     insertStatement.run(...values)
 }
-
-// runSedd([
-//     {
-//         username: 'gibson',
-//         password: 'teste',
-//         email: 'gb@gb.com'
-//     },
-//     {
-//         username: 'amanda',
-//         password: 'amd',
-//         email: 'am@d.com.br'
-//     },
-//     {
-//         username: 'xuxa',
-//         password: 'silva',
-//         email: 'z@gmail.com'
-//     },
-// ])
