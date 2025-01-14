@@ -1,11 +1,11 @@
 import { UserInput } from '../schemas/userSchema.js'
 import { database } from '../database/db.js'
 import sqlBricks from 'sql-bricks'
-import { User } from '../interfaces/user.interface.js'
+import { UserEntity } from '../interfaces/UserEntity.js'
 import { StatementSync } from 'node:sqlite'
 
 export class UserRepository {
-  async create (credentials: UserInput) {
+  async create(credentials: UserInput) {
     const { text, values } = sqlBricks
       .insertInto('users', credentials)
       .toParams({ placeholder: '?' })
@@ -14,7 +14,7 @@ export class UserRepository {
     this.insertUserRole()
   }
 
-  async insertUserRole () {
+  async insertUserRole() {
     const roles = [
       {
         user_id: 1,
@@ -28,7 +28,7 @@ export class UserRepository {
     insertStatement.run(...values)
   }
 
-  async findByLogin (login: string) {
+  async findByLogin(login: string) {
     const { text, values } = sqlBricks
       .select('users.username', 'users.password', 'roles.role')
       .from('users')
@@ -56,11 +56,11 @@ export class UserRepository {
     return false
   }
 
-  async findAll () {
+  async findAll() {
     const { text } = sqlBricks.select().from('users').toParams()
     const selectStatement: StatementSync = database.prepare(text)
     const result: unknown[] = selectStatement.all()
-    const cleanResult: User[] = result.map(({ ...row }) => row) as User[]
+    const cleanResult: UserEntity[] = result.map(({ ...row }) => row) as UserEntity[]
     return cleanResult
   }
 }
