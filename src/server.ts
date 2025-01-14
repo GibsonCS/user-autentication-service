@@ -1,13 +1,10 @@
 import fastify from "fastify";
 import { registerRoutes } from "./routes/index.js";
 import fastifyCookie from "@fastify/cookie";
-
-
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import fastifyCors from "@fastify/cors";
 
 const server = fastify()
-
 server.register(fastifyCors, {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
