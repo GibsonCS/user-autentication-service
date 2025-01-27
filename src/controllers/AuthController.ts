@@ -5,7 +5,7 @@ import { AuthService } from '../services/AuthService.js'
 
 const authService = new AuthService()
 class AuthController {
-  async checkAuth (request: FastifyRequest, repply: FastifyReply) {
+  async checkAuth(request: FastifyRequest, repply: FastifyReply) {
     try {
       const token = request.cookies.authToken
       const decodedToken: any = jwtDecoded(token)
@@ -19,7 +19,7 @@ class AuthController {
     }
   }
 
-  async login (request: FastifyRequest, reply: FastifyReply) {
+  async login(request: FastifyRequest, reply: FastifyReply) {
     try {
       const data: LoginInput = loginValidation.parse(request.body)
       const jwt = await authService.handleLogin(data)
@@ -38,7 +38,9 @@ class AuthController {
       }
     } catch (err) {
       console.error(err)
+      reply.code(401)
       throw new Error('Error processing login')
+
     }
   }
 }
