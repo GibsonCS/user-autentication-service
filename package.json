@@ -5,7 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx tsx src/api.test.js",
+    "test:dev": "npx tsx --watch src/api.test.js",
     "dev": "npx tsx --inspect --watch --experimental-sqlite src/server.ts"
   },
   "keywords": [],
