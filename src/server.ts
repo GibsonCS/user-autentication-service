@@ -4,7 +4,7 @@ import fastifyCookie from "@fastify/cookie";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import fastifyCors from "@fastify/cors";
 
-const server = fastify()
+export const server = fastify()
 server.register(fastifyCors, {
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -15,6 +15,7 @@ authMiddleware(server)
 registerRoutes(server);
 
 server.register(fastifyCookie)
+
 const app = async () => {
     try {
         await server.listen({ port: 3000 })
@@ -25,3 +26,4 @@ const app = async () => {
     }
 }
 app()
+
