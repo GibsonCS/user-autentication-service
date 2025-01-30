@@ -3,3 +3,4 @@ node_modules
 src/database/*.sqlite
 dist
 .vscode
+coverage/
