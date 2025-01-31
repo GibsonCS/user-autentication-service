@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "npx tsx ./src/test/api.test.js",
-    "test:dev": "npx tsx --watch src/api.test.js",
+    "test:debug": "npx tsx --inspect --watch --experimental-sqlite --test src/test/api.test.ts",
     "test:cov": "npx c8 --100 --all --exclude src/server.ts tsx --test src/test/**/*.test.ts",
-    "dev": "npx tsx --inspect --watch --experimental-sqlite src/server.ts"
+    "dev": "npx tsx --watch --experimental-sqlite src/server.ts"
   },
   "keywords": [],
   "author": "",
