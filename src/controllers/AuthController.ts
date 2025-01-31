@@ -7,12 +7,22 @@ const authService = new AuthService()
 class AuthController {
   async checkAuth(request: FastifyRequest, repply: FastifyReply) {
     try {
-      const token = request.cookies.authToken
+      const token = request.cookies?.authToken
+      if(!token) {
+        return repply.status(401).send({message: 'Unauthorized'})
+      }
+
       const decodedToken: any = jwtDecoded(token)
+      
+      if(!decodedToken) {
+        return repply.status(401).send({message: 'Unauthorized: invalid token'})
+      }
+
       repply.send({
         username: decodedToken.username,
         roles: decodedToken.roles
       })
+      
     } catch (error) {
       console.error(error)
       throw new Error('Unauthorized')
@@ -32,7 +42,7 @@ class AuthController {
             maxAge: 3600
           })
           .status(200)
-          .send({ message: 'Wellcome' })
+          .send({ message: 'Welcome', token: jwt })
       } else {
         reply.status(401).send({ message: 'Verifique as credencias.' })
       }
