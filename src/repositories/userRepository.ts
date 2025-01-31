@@ -4,20 +4,23 @@ import sqlBricks from 'sql-bricks'
 import { UserEntity } from '../interfaces/UserEntity.js'
 import { StatementSync } from 'node:sqlite'
 
+let lasId: number | bigint
 export class UserRepository {
-  async create(credentials: UserInput) {
+   async create(credentials: UserInput) {
     const { text, values } = sqlBricks
       .insertInto('users', credentials)
       .toParams({ placeholder: '?' })
     const insertStatement = database.prepare(text)
-    insertStatement.run(...values)
+    const result =  insertStatement.run(...values)
+    lasId = result.lastInsertRowid
+   
     this.insertUserRole()
   }
 
   async insertUserRole() {
     const roles = [
       {
-        user_id: 1,
+        user_id:`${lasId++}`,
         role_id: 1
       }
     ]
