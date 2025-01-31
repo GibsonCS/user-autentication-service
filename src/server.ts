@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes/index.js";
 import fastifyCookie from "@fastify/cookie";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import fastifyCors from "@fastify/cors";
+import { seed } from "./seed.js";
 
 export const server = fastify()
 server.register(fastifyCors, {
@@ -26,4 +27,5 @@ const app = async () => {
     }
 }
 app()
+seed()
 
