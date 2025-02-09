@@ -1,12 +1,10 @@
-import { FastifyInstance } from "fastify"
-import { userRoutes } from "./userRoute.js"
-import { authRoutes } from "./authRoute.js"
+import { FastifyInstance } from 'fastify'
+import { userRoutes } from '../modules/users/routes/userRoute.js'
 
 export const registerRoutes = (server: FastifyInstance) => {
-    const apiPrefix = {
-        prefix: '/api'
-    }
+  const apiPrefix = {
+    prefix: '/api',
+  }
 
-    server.register(userRoutes, apiPrefix)
-    server.register(authRoutes, apiPrefix)
+  server.register(userRoutes, apiPrefix)
 }
