@@ -1,4 +1,3 @@
-import { Jwt } from 'jsonwebtoken'
 import { encryptPassword } from '../../../shared/util/encrypt.js'
 import { IUserRepository } from '../interfaces/IUserRepository.js'
 import { LoginInput, UserInput, UserOutput } from '../schemas/userSchema.js'
@@ -20,13 +19,10 @@ export class UserService {
 
   getUsers = async () => {
     const users = await this.userRepository.findAll()
-    const userOnlyEmailAndUsername: UserOutput[] = []
-    users.forEach((user) =>
-      userOnlyEmailAndUsername.push({
-        username: user.username,
-        email: user.email,
-      })
-    )
+    const userOnlyEmailAndUsername: UserOutput[] = users.map(({ username, email }) => ({
+      username,
+      email,
+    }))
     return userOnlyEmailAndUsername
   }
 
