@@ -2,6 +2,7 @@ import { UserInput, UserOutput } from '../schemas/userSchema.js'
 import sqlBricks from 'sql-bricks'
 import { DatabaseSync, StatementSync } from 'node:sqlite'
 import { IUserRepository } from '../interfaces/IUserRepository.js'
+import { User } from '../entity/User.js'
 
 let lasId: number | bigint
 export class UserRepository implements IUserRepository {
@@ -9,9 +10,9 @@ export class UserRepository implements IUserRepository {
   constructor(database: DatabaseSync) {
     this.database = database
   }
-  findByLogin = async (login: string): Promise<any> => {
+  findByLogin = async (login: string): Promise<User | null> => {
     const { text, values } = sqlBricks
-      .select('users.username', 'users.password', 'roles.role')
+      .select('users.id', 'users.username', 'users.password', 'users.email', 'roles.role')
       .from('users')
       .innerJoin('user_roles')
       .on('users.id', 'user_roles.user_id')
@@ -20,20 +21,15 @@ export class UserRepository implements IUserRepository {
       .where('users.username', login)
       .toParams({ placeholder: '?' })
     const selectStatement = this.database.prepare(text)
-    const result = selectStatement.all(...values)
-    if (result) {
-      const roles = Object.values(result)
-        .filter((value) => typeof value === 'object')
-        .map((v: any) => v.role)
-      const { username, password }: any = result[0]
-      const user = {
-        username,
-        roles,
-        password,
-      }
-      return user
+    const [result]: any = selectStatement.all(...values)
+    const user: User = {
+      id: result.id,
+      username: result.username,
+      password: result.password,
+      email: result.email,
+      role: result.role,
     }
-    return false
+    return user
   }
 
   async insertUserRole(id: number | bigint): Promise<boolean> {
