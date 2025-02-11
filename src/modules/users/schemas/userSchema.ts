@@ -3,7 +3,7 @@ import z from 'zod'
 export const userSchema = z.object({
   username: z.string(),
   password: z.string(),
-  email: z.string().email(),
+  email: z.string().email('invalid email type'),
 })
 
 export const loginSchema = z.object({
