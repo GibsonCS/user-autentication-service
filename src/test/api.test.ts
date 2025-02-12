@@ -5,7 +5,6 @@ import { UserRepositoryFactory } from '../shared/factories/UserRepositoryFactory
 import { FastifyInstance } from 'fastify'
 import dotenv from 'dotenv'
 import { LoginInput, UserInput } from '../modules/users/schemas/userSchema.js'
-import { json } from 'node:stream/consumers'
 
 dotenv.config()
 const BASE_URL = process.env.BASE_URL
@@ -71,8 +70,8 @@ describe('API Workflow', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials),
     })
-    const data = await response.json()
 
+    const data = await response.json()
     strictEqual(response.status, 401)
     deepStrictEqual(data, { message: 'Verifique as credencias.' })
   })
@@ -92,7 +91,15 @@ describe('API Workflow', () => {
     strictEqual(response.status, 200)
     const [authToken] = response.headers.getSetCookie()
     token = authToken
-    deepStrictEqual(data, { message: 'Welcome', role: 'user' })
+    deepStrictEqual(data, { username: 'teste', role: 'user' })
+  })
+
+  it('Should return 200 if users has found', async () => {
+    const response = await fetch(`${BASE_URL}/users`, {
+      method: 'GET',
+      headers: { Cookie: token },
+    })
+    strictEqual(response.status, 200)
   })
 
   it('Should return 401 if route is not authorized', async () => {
@@ -100,7 +107,6 @@ describe('API Workflow', () => {
       method: 'GET',
     })
     const data = await response.json()
-    console.log(data)
     strictEqual(response.status, 401)
     deepStrictEqual(data, { message: 'Unauthorized' })
   })
@@ -108,15 +114,31 @@ describe('API Workflow', () => {
   it('Should return 200 if route was authorized', async () => {
     const response = await fetch(`${BASE_URL}/users`, {
       method: 'GET',
-      headers: { Cookie: `authToken=${token}` },
+      headers: { Cookie: token },
     })
     const data = await response.json()
-    console.log(data)
     strictEqual(response.status, 200)
     deepStrictEqual(data, [
       { username: 'teste', email: 'teste@teste.com' },
       { username: 'teste', email: 'teste@teste.com' },
     ])
+  })
+
+  it('Should return 401 if user has no token for auth route', async () => {
+    const response = await fetch(`${BASE_URL}/auth`, {
+      method: 'GET',
+    })
+    strictEqual(response.status, 401)
+  })
+
+  it('Should return status code 200 and role if user been auth', async () => {
+    const response = await fetch(`${BASE_URL}/auth`, {
+      method: 'GET',
+      headers: { Cookie: token },
+    })
+    const data = await response.json()
+    strictEqual(response.status, 200)
+    deepStrictEqual(data, { role: 'user' })
   })
 
   after(async () => {
