@@ -7,7 +7,7 @@ export const authMiddleware = (server: FastifyInstance) => {
         return done()
       }
     }
-    const token = req.headers.cookie?.replace('authToken=', '')
-    token ? done() : reply.status(401).send({ message: 'Unauthorized' })
+    const authToken = req.headers.cookie
+    authToken ? done() : reply.status(401).send({ message: 'Unauthorized' })
   })
 }
