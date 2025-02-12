@@ -35,6 +35,7 @@ export class UserService {
     if (isMatch) {
       const jwt = generateJWT({
         role: user.role,
+        username: user.username,
       })
       return jwt
     }
