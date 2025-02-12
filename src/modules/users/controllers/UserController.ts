@@ -50,7 +50,7 @@ export class UserController {
             maxAge: 3600,
           })
           .status(200)
-          .send({ message: 'Welcome', role: decodedToken.role })
+          .send({ username: decodedToken.username, role: decodedToken.role })
       } else {
         reply.status(401).send({ message: 'Verifique as credencias.' })
       }
