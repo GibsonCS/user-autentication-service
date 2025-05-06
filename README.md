@@ -16,6 +16,7 @@ Whith this project, the client will can create users, authenticate users and che
 * **SQLite:** A C-language library that implements a small, fast, self-contained, higth-reliability, full-featured, SQL database engine.
 (Native on Node 23)
 
+***
 ### Project stage :   _In development_
 
 
