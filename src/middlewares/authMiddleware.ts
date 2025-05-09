@@ -3,10 +3,11 @@ import { jwtDecoded } from '../shared/util/jwtDecode.js'
 import { extractToken } from '../shared/util/extractToken.js'
 
 export const authMiddleware = (server: FastifyInstance) => {
-  const publicRoutes = ['/api/users/login', '/api/users']
+  const publicRoutes = ['/api/users/login', '/api/users', '/api/docs']
 
   server.addHook('onRequest', (req: FastifyRequest, reply: FastifyReply, done) => {
-    if (publicRoutes.includes(req.url) && req.method === 'POST') return done()
+    if ((publicRoutes.includes(req.url) && req.method === 'POST') || req.method === 'GET')
+      return done()
 
     const token = extractToken(req.headers.cookie)
 
