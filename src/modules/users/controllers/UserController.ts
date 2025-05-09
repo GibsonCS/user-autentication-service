@@ -27,11 +27,11 @@ export class UserController {
   async handleGettingUsers(_: FastifyRequest, reply: FastifyReply) {
     try {
       const users: UserOutput[] = await userService.getUsers()
-      users.length !== 0
-        ? reply.status(200).send(users)
-        : reply.status(404).send({ message: 'Nenhum usuário encontrado' })
+
+      if (!users) reply.status(404).send({ message: 'Nenhum usuário encontrado' })
+
+      reply.code(200).send({ users })
     } catch (err) {
-      console.error(err)
       throw new Error(err)
     }
   }
