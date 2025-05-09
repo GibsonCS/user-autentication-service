@@ -5,6 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "build": "npx tsc",
+    "start": "node ./dist/server.js",
     "test": "npx tsx ./src/test/api.test.js",
     "test:debug": "npx tsx --inspect --watch --experimental-sqlite --test src/test/*",
     "test:cov": "npx c8 --100 --all --exclude src/server.ts --exclude src/modules/users/entity/** --exclude eslint.config.js --exclude src/modules/users/interfaces/** --exclude src/modules/users/repositories/interfaces/** tsx --test src/test/**/*.test.ts",
