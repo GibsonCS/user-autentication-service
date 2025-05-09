@@ -7,7 +7,7 @@ import { seed } from './seed.js'
 
 export const server = fastify()
 server.register(fastifyCors, {
-  origin: 'http://localhost:5173',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 })
