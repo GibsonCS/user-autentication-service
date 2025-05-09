@@ -4,10 +4,13 @@ import fastifyCookie from '@fastify/cookie'
 import { authMiddleware } from './middlewares/authMiddleware.js'
 import fastifyCors from '@fastify/cors'
 import { seed } from './seed.js'
+import { registerSwagger } from './documentation/swagger.js'
 
 const PORT = parseInt(process.env.PORT) || 3000
 
 export const server = fastify()
+await registerSwagger(server)
+
 server.register(fastifyCors, {
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
