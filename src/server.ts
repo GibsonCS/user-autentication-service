@@ -5,6 +5,8 @@ import { authMiddleware } from './middlewares/authMiddleware.js'
 import fastifyCors from '@fastify/cors'
 import { seed } from './seed.js'
 
+const PORT = parseInt(process.env.PORT) || 3000
+
 export const server = fastify()
 server.register(fastifyCors, {
   origin: '*',
@@ -19,8 +21,8 @@ server.register(fastifyCookie)
 
 const app = async () => {
   try {
-    await server.listen({ port: 3000 })
-    console.log('Server is running at 3000')
+    await server.listen({ host: '0.0.0.0', port: PORT })
+    console.log(`Server is running at ${PORT ?? '3000.'}`)
   } catch (err) {
     console.error(err)
     throw new Error(err)
