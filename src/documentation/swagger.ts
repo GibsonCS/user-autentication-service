@@ -11,8 +11,8 @@ export const registerSwagger = async (server: FastifyInstance) => {
         description: 'API Documentation',
         version: '1.0.0',
       },
-      // servers: [{ url: process.env.SWAGGER_URL }],
-      servers: [{ url: 'http://localhost:3000' }],
+      servers: [{ url: process.env.SWAGGER_URL }],
+      // servers: [{ url: 'http://localhost:3000' }],
       components: {
         schemas: {
           user: {
