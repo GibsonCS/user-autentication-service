@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 import { LoginInput, UserInput } from '../modules/users/schemas/userSchema.js'
 
 dotenv.config()
-const BASE_URL = process.env.BASE_URL
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000/api'
 
 const userRepository = UserRepositoryFactory.createUserRepository('prod')
 const userService = new UserService(userRepository)
