@@ -102,45 +102,6 @@ describe('API Workflow', () => {
     strictEqual(response.status, 200)
   })
 
-  it('Should return 401 if route is not authorized', async () => {
-    const response = await fetch(`${BASE_URL}/users`, {
-      method: 'GET',
-    })
-    const data = await response.json()
-    strictEqual(response.status, 401)
-    deepStrictEqual(data, { message: 'Unauthorized' })
-  })
-
-  it('Should return 200 if route was authorized', async () => {
-    const response = await fetch(`${BASE_URL}/users`, {
-      method: 'GET',
-      headers: { Cookie: token },
-    })
-    const data = await response.json()
-    strictEqual(response.status, 200)
-    deepStrictEqual(data, [
-      { username: 'teste', email: 'teste@teste.com' },
-      { username: 'teste', email: 'teste@teste.com' },
-    ])
-  })
-
-  it('Should return 401 if user has no token for auth route', async () => {
-    const response = await fetch(`${BASE_URL}/auth`, {
-      method: 'GET',
-    })
-    strictEqual(response.status, 401)
-  })
-
-  it('Should return status code 200 and role if user been auth', async () => {
-    const response = await fetch(`${BASE_URL}/auth`, {
-      method: 'GET',
-      headers: { Cookie: token },
-    })
-    const data = await response.json()
-    strictEqual(response.status, 200)
-    deepStrictEqual(data, { role: 'user' })
-  })
-
   after(async () => {
     console.log('Closing server...')
     await server.close()

@@ -39,7 +39,6 @@ runSedd()
 
 export function insert({ table, items }: any) {
   const { text, values } = sqlBricks.insertInto(table, items).toParams({ placeholder: '?' })
-  console.log(text)
 
   const insertStatement = database.prepare(text)
   insertStatement.run(...values)

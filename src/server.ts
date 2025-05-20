@@ -32,4 +32,4 @@ const app = async () => {
   }
 }
 app()
-seed()
+// seed()
