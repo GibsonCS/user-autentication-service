@@ -47,7 +47,7 @@ describe('API Workflow', () => {
     const user: UserInput = {
       username: 'teste',
       password: 'teste',
-      email: 'teste@teste.com',
+      email: 'teste@gmail.com',
     }
 
     const response = await fetch(`${BASE_URL}/users`, {

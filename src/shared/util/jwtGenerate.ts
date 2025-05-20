@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const KEY = process.env.JWT_SECRET_KEY
+const KEY = process.env.JWT_SECRET_KEY || 'hello_world'
 export const generateJWT = (payload: Object) => {
   const options = {
     expiresIn: '1h',
